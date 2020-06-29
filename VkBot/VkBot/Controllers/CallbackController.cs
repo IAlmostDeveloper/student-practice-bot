@@ -30,6 +30,7 @@ namespace VkBot.Controllers
 		public IActionResult Callback([FromBody] Updates updates)
 		{
 			// Проверяем, что находится в поле "type" 
+			Console.WriteLine(updates.Type);
 			switch (updates.Type)
 			{
 				// Если это уведомление для подтверждения адреса
