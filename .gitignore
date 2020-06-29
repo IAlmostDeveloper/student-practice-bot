@@ -1,0 +1,5 @@
+
+VkBot/.idea/
+*.cache
+*.props
+*.targets
