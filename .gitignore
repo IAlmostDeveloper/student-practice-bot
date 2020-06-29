@@ -3,3 +3,7 @@ VkBot/.idea/
 *.cache
 *.props
 *.targets
+
+VkBot/VkBot/bin/
+
+VkBot/VkBot/obj/
