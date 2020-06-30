@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json.Linq;
 using VkBot.Models;
+using VkBot.Services;
 using VkNet.Abstractions;
 using VkNet.Model;
+using VkNet.Model.GroupUpdate;
 using VkNet.Model.RequestParams;
 using VkNet.Utils;
 
@@ -18,39 +22,29 @@ namespace VkBot.Controllers
 		/// </summary>
 		private readonly IConfiguration configuration;
 
-		private readonly IVkApi vkApi;
+		private readonly VkEventHandler eventHandler;
 
-		public CallbackController(IConfiguration configuration, IVkApi vkApi)
+		public CallbackController(IConfiguration configuration, VkEventHandler eventHandler)
 		{
 			this.configuration = configuration;
-			this.vkApi = vkApi;
+			this.eventHandler = eventHandler;
 		}
 
 		[HttpPost]
-		public IActionResult Callback([FromBody] Updates updates)
+		public IActionResult Callback([FromBody] EventDto eventDto)
 		{
-			// Проверяем, что находится в поле "type" 
-			Console.WriteLine(updates.Type);
-			switch (updates.Type)
+			var vkResponse = new VkResponse(eventDto.Object);
+			switch (eventDto.Type)
 			{
-				// Если это уведомление для подтверждения адреса
 				case "confirmation":
-					// Отправляем строку для подтверждения 
 					return Ok(configuration["Config:Confirmation"]);
 				case "message_new":
-					// Десериализация
-					var msg = Message.FromJson(new VkResponse(updates.Object));
-
-					// Отправим в ответ полученный от пользователя текст
-					vkApi.Messages.Send(new MessagesSendParams
-					{
-						RandomId = new DateTime().Millisecond,
-						PeerId = msg.PeerId,
-						Message = msg.Text
-					});
+					eventHandler.MessageNew(vkResponse);
 					break;
+				// case "group_join":
+				// 	eventHandler.GroupJoin(vkResponse);
+				// 	break;
 			}
-			// Возвращаем "ok" серверу Callback API
 			return Ok("ok");
 		}
 	}
