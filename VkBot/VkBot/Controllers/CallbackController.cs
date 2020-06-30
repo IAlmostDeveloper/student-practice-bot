@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using VkBot.Data;
 using VkBot.Models;
 using VkNet.Abstractions;
 using VkNet.Model;
@@ -9,49 +10,53 @@ using VkNet.Utils;
 
 namespace VkBot.Controllers
 {
-	[Route("api/[controller]")]
-	[ApiController]
-	public class CallbackController : ControllerBase
-	{
-		/// <summary>
-		/// Конфигурация приложения
-		/// </summary>
-		private readonly IConfiguration configuration;
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CallbackController : ControllerBase
+    {
+        /// <summary>
+        /// Конфигурация приложения
+        /// </summary>
+        private readonly IConfiguration configuration;
 
-		private readonly IVkApi vkApi;
+        private readonly IVkApi vkApi;
+        
+        private readonly DataBaseContext dataBaseContext;
 
-		public CallbackController(IConfiguration configuration, IVkApi vkApi)
-		{
-			this.configuration = configuration;
-			this.vkApi = vkApi;
-		}
+        public CallbackController(IConfiguration configuration, IVkApi vkApi, DataBaseContext dataBaseContext)
+        {
+            this.configuration = configuration;
+            this.vkApi = vkApi;
+            this.dataBaseContext = dataBaseContext;
+        }
 
-		[HttpPost]
-		public IActionResult Callback([FromBody] Updates updates)
-		{
-			// Проверяем, что находится в поле "type" 
-			Console.WriteLine(updates.Type);
-			switch (updates.Type)
-			{
-				// Если это уведомление для подтверждения адреса
-				case "confirmation":
-					// Отправляем строку для подтверждения 
-					return Ok(configuration["Config:Confirmation"]);
-				case "message_new":
-					// Десериализация
-					var msg = Message.FromJson(new VkResponse(updates.Object));
+        [HttpPost]
+        public IActionResult Callback([FromBody] Updates updates)
+        {
+            // Проверяем, что находится в поле "type" 
+            Console.WriteLine(updates.Type);
+            switch (updates.Type)
+            {
+                // Если это уведомление для подтверждения адреса
+                case "confirmation":
+                    // Отправляем строку для подтверждения 
+                    return Ok(configuration["Config:Confirmation"]);
+                case "message_new":
+                    // Десериализация
+                    var msg = Message.FromJson(new VkResponse(updates.Object));
 
-					// Отправим в ответ полученный от пользователя текст
-					vkApi.Messages.Send(new MessagesSendParams
-					{
-						RandomId = new DateTime().Millisecond,
-						PeerId = msg.PeerId,
-						Message = msg.Text
-					});
-					break;
-			}
-			// Возвращаем "ok" серверу Callback API
-			return Ok("ok");
-		}
-	}
+                    // Отправим в ответ полученный от пользователя текст
+                    vkApi.Messages.Send(new MessagesSendParams
+                    {
+                        RandomId = new DateTime().Millisecond,
+                        PeerId = msg.PeerId,
+                        Message = msg.Text
+                    });
+                    break;
+            }
+
+            // Возвращаем "ok" серверу Callback API
+            return Ok("ok");
+        }
+    }
 }
