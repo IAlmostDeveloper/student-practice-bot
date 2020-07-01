@@ -41,9 +41,9 @@ namespace VkBot.Controllers
 				case "message_new":
 					eventHandler.MessageNew(vkResponse);
 					break;
-				// case "group_join":
-				// 	eventHandler.GroupJoin(vkResponse);
-				// 	break;
+				case "group_join":
+					eventHandler.GroupJoin(vkResponse);
+					break;
 			}
 			return Ok("ok");
 		}

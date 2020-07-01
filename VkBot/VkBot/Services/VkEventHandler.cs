@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using VkNet.Abstractions;
 using VkNet.Model;
 using VkNet.Model.GroupUpdate;
@@ -31,11 +32,17 @@ namespace VkBot.Services
 		public void GroupJoin(VkResponse vkResponse)
 		{
 			var groupJoin = VkNet.Model.GroupUpdate.GroupJoin.FromJson(vkResponse);
+			var userName = "Человек";
+			if (groupJoin.UserId != null)
+			{
+				var user = vkApi.Users.Get(new[] {groupJoin.UserId.Value}).FirstOrDefault();
+				userName = user != null ? user.FirstName : userName;
+			}
 			var messageParams = new MessagesSendParams
 			{
 				PeerId = groupJoin.UserId,
 				RandomId = new DateTime().Millisecond,
-				Message = "Hello Человек :3"
+				Message = $"Hello {userName} :3"
 			};
 			vkApi.Messages.Send(messageParams);
 		}
