@@ -21,14 +21,23 @@ namespace VkBot.Data
             return userEntity.Entity;
         }
 
-        public Student FindById(Guid studentId)
+        public Student FindById(int studentId)
         {
-            return dbContext.Students.FirstOrDefault(s => s.Id == studentId);
+            return dbContext.Students.FirstOrDefault(s => s.idStudents == studentId);
         }
 
         public Student FindByFirstName(string firstName)
         {
-            return dbContext.Students.First(s => s.FirstName.Equals(firstName));
+            Student result = null;
+            try
+            {
+                result = dbContext.Students.First(s => s.FirstName.Equals(firstName));
+            }
+            catch (InvalidOperationException e)
+            {
+            }
+
+            return result;
         }
 
 
@@ -38,7 +47,7 @@ namespace VkBot.Data
             dbContext.SaveChanges();
         }
 
-        public bool Delete(Guid userId)
+        public bool Delete(int userId)
         {
             var student = FindById(userId);
             if (student == null)

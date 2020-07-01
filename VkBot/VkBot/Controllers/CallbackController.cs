@@ -21,13 +21,13 @@ namespace VkBot.Controllers
 
         private readonly IVkApi vkApi;
         
-        private readonly DataBaseContext dataBaseContext;
+        private readonly UserRepository userRepository;
 
-        public CallbackController(IConfiguration configuration, IVkApi vkApi, DataBaseContext dataBaseContext)
+        public CallbackController(IConfiguration configuration, IVkApi vkApi, UserRepository userRepository)
         {
             this.configuration = configuration;
             this.vkApi = vkApi;
-            this.dataBaseContext = dataBaseContext;
+            this.userRepository = userRepository;
         }
 
         [HttpPost]
@@ -44,13 +44,14 @@ namespace VkBot.Controllers
                 case "message_new":
                     // Десериализация
                     var msg = Message.FromJson(new VkResponse(updates.Object));
-
-                    // Отправим в ответ полученный от пользователя текст
+                    
+                    var response = userRepository.FindByFirstName(msg.Text);
+                    
                     vkApi.Messages.Send(new MessagesSendParams
                     {
                         RandomId = new DateTime().Millisecond,
                         PeerId = msg.PeerId,
-                        Message = msg.Text
+                        Message = response != null ? response.LastName : "No such student"
                     });
                     break;
             }

@@ -23,8 +23,13 @@ namespace VkBot
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MySqlDataBase>(options =>
-                options.UseMySql(Configuration.GetConnectionString("MySqlDatabase")));
+
+            services.AddSingleton(new MySqlDataBase(Configuration.GetConnectionString("MySqlDataBase")));
+            services.AddEntityFrameworkMySql()
+                .AddDbContext<MySqlDataBase>(options =>
+                options.UseMySql(Configuration.GetConnectionString("MySqlDataBase")));
+            services.AddSingleton(
+                new UserRepository(new MySqlDataBase(Configuration.GetConnectionString("MySqlDataBase"))));
             services.AddSingleton<IVkApi>(sp =>
             {
                 var api = new VkApi();
