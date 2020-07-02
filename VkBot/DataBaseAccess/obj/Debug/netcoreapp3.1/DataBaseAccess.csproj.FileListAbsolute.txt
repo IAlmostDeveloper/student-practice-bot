@@ -1,0 +1,9 @@
+C:\Users\developer\Documents\Projects\student-practice-bot\VkBot\DataBaseAccess\bin\Debug\netcoreapp3.1\DataBaseAccess.deps.json
+C:\Users\developer\Documents\Projects\student-practice-bot\VkBot\DataBaseAccess\bin\Debug\netcoreapp3.1\DataBaseAccess.dll
+C:\Users\developer\Documents\Projects\student-practice-bot\VkBot\DataBaseAccess\bin\Debug\netcoreapp3.1\DataBaseAccess.pdb
+C:\Users\developer\Documents\Projects\student-practice-bot\VkBot\DataBaseAccess\obj\Debug\netcoreapp3.1\DataBaseAccess.csprojAssemblyReference.cache
+C:\Users\developer\Documents\Projects\student-practice-bot\VkBot\DataBaseAccess\obj\Debug\netcoreapp3.1\DataBaseAccess.AssemblyInfoInputs.cache
+C:\Users\developer\Documents\Projects\student-practice-bot\VkBot\DataBaseAccess\obj\Debug\netcoreapp3.1\DataBaseAccess.AssemblyInfo.cs
+C:\Users\developer\Documents\Projects\student-practice-bot\VkBot\DataBaseAccess\obj\Debug\netcoreapp3.1\DataBaseAccess.csproj.CoreCompileInputs.cache
+C:\Users\developer\Documents\Projects\student-practice-bot\VkBot\DataBaseAccess\obj\Debug\netcoreapp3.1\DataBaseAccess.dll
+C:\Users\developer\Documents\Projects\student-practice-bot\VkBot\DataBaseAccess\obj\Debug\netcoreapp3.1\DataBaseAccess.pdb

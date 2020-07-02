@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VkBot.Data.Entities;
 
-namespace VkBot.Data
+namespace DataBaseAccess.Data
 {
     public class DataBaseContext : DbContext
     {
-        public DbSet<Student> Students { get; set; }
+        public DbSet<QuestionAndAnswer> QuestionsAndAnswers { get; set; }
 
         public DataBaseContext(DbContextOptions options) : base(options)
         {
@@ -15,9 +15,6 @@ namespace VkBot.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Student>()
-                .HasIndex(u => u.LastName)
-                .IsUnique();
         }
 
         private void ConfigureDataBase()

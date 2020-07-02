@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace VkBot.Data
+namespace DataBaseAccess.Data
 {
 	public class MySqlDataBase: DataBaseContext
 	{
