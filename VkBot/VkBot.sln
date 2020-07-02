@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VkBot", "VkBot\VkBot.csproj", "{51D32A7A-FB2A-4022-95D7-ACC579B4BCE8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBaseFiller", "DataBaseFiller\DataBaseFiller.csproj", "{77B5800E-3595-46AB-AEEE-488B372C9DFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBaseAccess", "DataBaseAccess\DataBaseAccess.csproj", "{6A799D65-01C7-4B25-8FCF-519A746CC491}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{51D32A7A-FB2A-4022-95D7-ACC579B4BCE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51D32A7A-FB2A-4022-95D7-ACC579B4BCE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51D32A7A-FB2A-4022-95D7-ACC579B4BCE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77B5800E-3595-46AB-AEEE-488B372C9DFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77B5800E-3595-46AB-AEEE-488B372C9DFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77B5800E-3595-46AB-AEEE-488B372C9DFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77B5800E-3595-46AB-AEEE-488B372C9DFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A799D65-01C7-4B25-8FCF-519A746CC491}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A799D65-01C7-4B25-8FCF-519A746CC491}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A799D65-01C7-4B25-8FCF-519A746CC491}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A799D65-01C7-4B25-8FCF-519A746CC491}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
