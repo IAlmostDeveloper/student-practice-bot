@@ -1,3 +1,4 @@
+using DataBaseAccess.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +25,7 @@ namespace VkBot
 		{
 			var connectionString = Configuration.GetConnectionString("MySql");
 			services.AddSingleton<DataBaseContext>(new MySqlDataBase(connectionString));
-			services.AddSingleton<StudentRepository>();
+			services.AddSingleton<QuestionAndAnswerRepository>();
 			
 			var api = new VkApi();
 			var apiAuthParams = new ApiAuthParams{ AccessToken = Configuration["Config:AccessToken"] };
