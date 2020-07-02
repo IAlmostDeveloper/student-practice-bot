@@ -10,5 +10,9 @@
 	  <PackageReference Include="VkNet" Version="1.53.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\DataBaseAccess\DataBaseAccess.csproj" />
+	</ItemGroup>
+
 
 </Project>
