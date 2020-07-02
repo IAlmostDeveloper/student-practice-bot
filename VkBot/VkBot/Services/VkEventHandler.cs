@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using VkBot.Data;
 using VkNet.Abstractions;
 using VkNet.Model;
 using VkNet.Model.GroupUpdate;
@@ -11,10 +12,12 @@ namespace VkBot.Services
 	public class VkEventHandler
 	{
 		private readonly IVkApi vkApi;
+		private readonly StudentRepository studentRepository;
 
-		public VkEventHandler(IVkApi vkApi)
+		public VkEventHandler(IVkApi vkApi, StudentRepository studentRepository)
 		{
 			this.vkApi = vkApi;
+			this.studentRepository = studentRepository;
 		}
 
 		public void MessageNew(VkResponse vkResponse)

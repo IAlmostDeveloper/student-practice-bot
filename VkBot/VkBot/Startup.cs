@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using VkBot.Data;
 using VkBot.Services;
 using VkNet;
 using VkNet.Abstractions;
@@ -21,6 +22,10 @@ namespace VkBot
 
 		public void ConfigureServices(IServiceCollection services)
 		{
+			var connectionString = Configuration.GetConnectionString("MySql");
+			services.AddSingleton<DataBaseContext>(new MySqlDataBase(connectionString));
+			services.AddSingleton<StudentRepository>();
+			
 			var api = new VkApi();
 			var apiAuthParams = new ApiAuthParams{ AccessToken = Configuration["Config:AccessToken"] };
 			api.Authorize(apiAuthParams);

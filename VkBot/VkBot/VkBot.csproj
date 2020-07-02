@@ -6,6 +6,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.5" />
+	  <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
 	  <PackageReference Include="VkNet" Version="1.53.0" />
 	</ItemGroup>
 

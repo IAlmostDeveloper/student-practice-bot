@@ -17,9 +17,6 @@ namespace VkBot.Controllers
 	[ApiController]
 	public class CallbackController : ControllerBase
 	{
-		/// <summary>
-		/// Конфигурация приложения
-		/// </summary>
 		private readonly IConfiguration configuration;
 
 		private readonly VkEventHandler eventHandler;
