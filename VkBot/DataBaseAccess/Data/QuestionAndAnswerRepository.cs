@@ -24,7 +24,7 @@ namespace DataBaseAccess.Data
 
         public QuestionAndAnswer FindById(int qandaId)
         {
-            return dbContext.QuestionsAndAnswers.FirstOrDefault(s => s.id == qandaId);
+            return dbContext.QuestionsAndAnswers.FirstOrDefault(s => s.Id == qandaId);
         }
 
         public QuestionAndAnswer FindByQuestion(string question)

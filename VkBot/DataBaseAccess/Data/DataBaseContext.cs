@@ -15,6 +15,9 @@ namespace DataBaseAccess.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<QuestionAndAnswer>()
+                .HasIndex(x => x.Question)
+                .IsUnique();
         }
 
         private void ConfigureDataBase()
