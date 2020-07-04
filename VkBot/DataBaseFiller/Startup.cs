@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataBaseAccess.Data;
+using DataBaseAccess.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -27,8 +28,9 @@ namespace DataBaseFiller
         {
             var connectionString = Configuration.GetConnectionString("MySql");
 
+            var db = new MySqlDataBase(connectionString);
             var parser = new CSVParser(Configuration.GetConnectionString("CsvFile"),
-                new QuestionAndAnswerRepository(new MySqlDataBase(connectionString)));
+                new QuestionAndAnswerRepository(db), new WordAndAnswerRepository(db));
             parser.Parse();
         }
 
