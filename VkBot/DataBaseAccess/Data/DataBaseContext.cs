@@ -6,6 +6,7 @@ namespace DataBaseAccess.Data
     public class DataBaseContext : DbContext
     {
         public DbSet<QuestionAndAnswer> QuestionsAndAnswers { get; set; }
+        public DbSet<WordAndAnswer> WordsAndAnswers { get; set; }
 
         public DataBaseContext(DbContextOptions options) : base(options)
         {

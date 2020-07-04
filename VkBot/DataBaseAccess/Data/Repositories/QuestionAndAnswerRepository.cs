@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
-using VkBot.Data;
 using VkBot.Data.Entities;
 
-namespace DataBaseAccess.Data
+namespace DataBaseAccess.Data.Repositories
 {
     public class QuestionAndAnswerRepository
     {
@@ -33,6 +32,20 @@ namespace DataBaseAccess.Data
             try
             {
                 result = dbContext.QuestionsAndAnswers.First(s => s.Question.Equals(question));
+            }
+            catch (InvalidOperationException)
+            {
+            }
+
+            return result;
+        }
+        
+        public QuestionAndAnswer FindByAnswer(string answer)
+        {
+            QuestionAndAnswer result = null;
+            try
+            {
+                result = dbContext.QuestionsAndAnswers.First(s => s.Answer.Equals(answer));
             }
             catch (InvalidOperationException)
             {
