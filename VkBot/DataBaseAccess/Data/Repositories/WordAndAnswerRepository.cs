@@ -43,6 +43,7 @@ namespace DataBaseAccess.Data.Repositories
 
         public IEnumerable<string> FindSeveralAnswersByPhrase(string phrase)
         {
+            var maxFrequency = 0;
             var answerAndRepeatCount = new Dictionary<string, int>();
             var words = phrase.Split(new[] {' ', '?', '.', ',', '!'},
                 StringSplitOptions.RemoveEmptyEntries);
@@ -55,12 +56,15 @@ namespace DataBaseAccess.Data.Repositories
                         answerAndRepeatCount[answer.Answer]++;
                     else answerAndRepeatCount.Add(answer.Answer, 0);
                 }
+
+                maxFrequency = answerAndRepeatCount.Select(pair => pair.Value).Concat(new[] {0}).Max();
             }
 
             return answerAndRepeatCount
+                .Where(a => maxFrequency - a.Value <= 2)
                 .OrderBy(answer => answer.Value)
                 .Select(answer => answer.Key)
-                .Take(5);
+                .Take(3);
         }
 
 
