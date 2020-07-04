@@ -8,5 +8,6 @@ VkBot/VkBot/bin/
 
 VkBot/VkBot/obj/
 VkBot/DataBaseFiller/obj/
+VkBot/DataBaseFiller/bin/
 VkBot/DataBaseAccess/obj/
 VkBot/DataBaseAccess/bin/
