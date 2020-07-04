@@ -29,6 +29,7 @@ namespace VkBot
 			var connectionString = Configuration.GetConnectionString("MySql" + Env.EnvironmentName);
 			services.AddSingleton<DataBaseContext>(new MySqlDataBase(connectionString));
 			services.AddSingleton<QuestionAndAnswerRepository>();
+			services.AddSingleton<WordAndAnswerRepository>();
 			
 			var api = new VkApi();
 			var apiAuthParams = new ApiAuthParams{ AccessToken = Configuration["Config:AccessToken"] };
