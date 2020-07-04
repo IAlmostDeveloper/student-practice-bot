@@ -45,7 +45,7 @@ namespace DataBaseFiller
                         var words = question.Split(new[] {' ', '?', '.', ',', '!'},
                             StringSplitOptions.RemoveEmptyEntries);
                         foreach (var word in words)
-                            wordAndAnswerRepository.InsertWandA(new WordAndAnswer {Word = word, Answer = answer});
+                            wordAndAnswerRepository.InsertWandA(new WordAndAnswer {Word = word.ToLower(), Answer = answer});
                         questionAndAnswerRepository.InsertQandA(new QuestionAndAnswer
                             {Answer = answer, Question = question});
                     }

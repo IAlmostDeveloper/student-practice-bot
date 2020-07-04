@@ -1,23 +1,26 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+﻿using System;
+using DataBaseAccess.Data;
+using DataBaseAccess.Data.Repositories;
+using DataBaseFiller;
 
-namespace DataBaseFiller
+namespace DBFiller
 {
-    public class Program
+    class Program
     {
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
-        }
+            var connectionString = "Server=localhost;Port=3306;User=root;Password=thereisnospoon;Database=mydb;";
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+            var db = new MySqlDataBase(connectionString);
+            var parser = new CSVParser("csvData.csv",
+                new QuestionAndAnswerRepository(db), new WordAndAnswerRepository(db));
+            parser.Parse();
+            var qr = new QuestionAndAnswerRepository(db);
+            var answers = new WordAndAnswerRepository(db).FindSeveralByPhrase("что курсовая когда зачем баллы");
+            foreach (var answer in qr.FindSeveralByAnswers(answers))
+            {
+                Console.WriteLine(answer.Question);
+            }
+        }
     }
 }
