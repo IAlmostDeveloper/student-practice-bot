@@ -41,7 +41,7 @@ namespace DataBaseAccess.Data.Repositories
             return result;
         }
 
-        public IEnumerable<string> FindSeveralAnswersByPhrase(string phrase)
+        public IEnumerable<string> FindSeveralByPhrase(string phrase)
         {
             var maxFrequency = 0;
             var answerAndRepeatCount = new Dictionary<string, int>();

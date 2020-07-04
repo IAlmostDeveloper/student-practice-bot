@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using VkBot.Data.Entities;
 
@@ -39,7 +40,7 @@ namespace DataBaseAccess.Data.Repositories
 
             return result;
         }
-        
+
         public QuestionAndAnswer FindByAnswer(string answer)
         {
             QuestionAndAnswer result = null;
@@ -52,6 +53,11 @@ namespace DataBaseAccess.Data.Repositories
             }
 
             return result;
+        }
+
+        public IEnumerable<QuestionAndAnswer> FindSeveralByAnswers(IEnumerable<string> answers)
+        {
+            return answers.Select(FindByAnswer);
         }
 
 
