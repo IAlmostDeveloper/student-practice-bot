@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json.Linq;
 using VkBot.Models;
 using VkBot.Services;
-using VkNet.Abstractions;
-using VkNet.Model;
-using VkNet.Model.GroupUpdate;
-using VkNet.Model.RequestParams;
 using VkNet.Utils;
 
 namespace VkBot.Controllers
@@ -30,6 +24,7 @@ namespace VkBot.Controllers
 		[HttpPost]
 		public IActionResult Callback([FromBody] EventDto eventDto)
 		{
+			Console.WriteLine(eventDto.Type);
 			var vkResponse = new VkResponse(eventDto.Object);
 			switch (eventDto.Type)
 			{

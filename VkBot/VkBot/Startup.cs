@@ -2,10 +2,10 @@ using DataBaseAccess.Data;
 using DataBaseAccess.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using VkBot.Data;
 using VkBot.Services;
 using VkNet;
 using VkNet.Abstractions;
@@ -36,21 +36,23 @@ namespace VkBot
 			api.Authorize(apiAuthParams);
 			services.AddSingleton<IVkApi>(api);
 			services.AddSingleton<VkEventHandler>();
+
+			services.AddSingleton<ErrorsStore>();
+			
 			services.AddControllers().AddNewtonsoftJson();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
 			if (env.IsDevelopment())
-			{
 				app.UseDeveloperExceptionPage();
-			}
-
+			else
+				app.UseExceptionHandler("/handleError");
 			app.UseHttpsRedirection();
 
 			app.UseRouting();
 
-			app.UseEndpoints(endpoints => endpoints.MapControllers());
+			app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
 		}
 	}
 }
