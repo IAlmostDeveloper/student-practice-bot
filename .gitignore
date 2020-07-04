@@ -7,3 +7,6 @@ VkBot/.idea/
 VkBot/VkBot/bin/
 
 VkBot/VkBot/obj/
+VkBot/DataBaseFiller/obj/
+VkBot/DataBaseAccess/obj/
+VkBot/DataBaseAccess/bin/

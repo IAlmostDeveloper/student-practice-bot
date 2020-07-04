@@ -14,16 +14,18 @@ namespace VkBot
 {
 	public class Startup
 	{
-		public Startup(IConfiguration configuration)
+		public Startup(IConfiguration configuration, IWebHostEnvironment env)
 		{
 			Configuration = configuration;
+			Env = env;
 		}
 
 		public IConfiguration Configuration { get; }
+		public IWebHostEnvironment Env { get; }
 
 		public void ConfigureServices(IServiceCollection services)
 		{
-			var connectionString = Configuration.GetConnectionString("MySql");
+			var connectionString = Configuration.GetConnectionString("MySql" + Env.EnvironmentName);
 			services.AddSingleton<DataBaseContext>(new MySqlDataBase(connectionString));
 			services.AddSingleton<QuestionAndAnswerRepository>();
 			
