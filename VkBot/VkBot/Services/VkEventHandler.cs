@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Linq;
-using DataBaseAccess.Data;
 using DataBaseAccess.Data.Repositories;
-using VkBot.Data;
+using Newtonsoft.Json;
 using VkBot.Data.Entities;
 using VkNet.Abstractions;
 using VkNet.Enums.SafetyEnums;
 using VkNet.Model;
-using VkNet.Model.GroupUpdate;
 using VkNet.Model.Keyboard;
 using VkNet.Model.RequestParams;
 using VkNet.Utils;
@@ -20,6 +18,7 @@ namespace VkBot.Services
         private readonly WordAndAnswerRepository wordAndAnswerRepository;
         private readonly QuestionAndAnswerRepository questionAndAnswerRepository;
         private const int MaxAnswersCount = 5;
+        private const int MaxMessageButtonLength = 40;
 
         public VkEventHandler(IVkApi vkApi, 
             WordAndAnswerRepository wordAndAnswerRepository,
@@ -33,8 +32,7 @@ namespace VkBot.Services
         public void MessageNew(VkResponse vkResponse)
         {
             var message = Message.FromJson(vkResponse);
-            var answersOnly = wordAndAnswerRepository.FindSeveralByPhrase(message.Text.ToLower()).ToArray();
-            var answers = questionAndAnswerRepository.FindSeveralByAnswers(answersOnly).ToArray();
+            var answers = GetAnswers(message);
             switch (answers.Length)
             {
                 case 0:
@@ -47,6 +45,31 @@ namespace VkBot.Services
                     SendMultiAnswersMessage(answers, message.PeerId);
                     break;
             }
+        }
+
+        private QuestionAndAnswer[] GetAnswers(Message message)
+        {
+            QuestionAndAnswer[] answers;
+            if (message.Payload != null)
+            {
+                var question = (string) JsonConvert.DeserializeObject<dynamic>(message.Payload).Question;
+                var answer = questionAndAnswerRepository.FindByQuestion(question);
+                const string unknownAnswer = "Мне не удалось найти этот ответ.\nЧто-то пошло не так :(";
+                answers = new[] {answer ?? new QuestionAndAnswer {Answer = unknownAnswer}};
+            }
+            else
+            {
+                var answer = questionAndAnswerRepository.FindByQuestion(message.Text);
+                if (answer != null)
+                    answers = new[] {answer};
+                else 
+                {
+                    var answersOnly = wordAndAnswerRepository.FindSeveralByPhrase(message.Text.ToLower()).ToArray();
+                    answers = questionAndAnswerRepository.FindSeveralByAnswers(answersOnly).ToArray();
+                }
+            }
+
+            return answers;
         }
 
         private void SendMessage(long? peerId, string messageText, MessageKeyboard messageKeyboard = null)
@@ -65,7 +88,16 @@ namespace VkBot.Services
         {
             var buttons = answers
                 .Take(MaxAnswersCount)
-                .Select(a => new[] {BuildTextButton(a.Question)});
+                .Select(answer =>
+                {
+                    var label = answer.Question;
+                    if (label.Length > MaxMessageButtonLength)
+                    {
+                        var labelParts = answer.Question.Take(MaxMessageButtonLength - 3);
+                        label = string.Join("", labelParts) + "...";
+                    }
+                    return new[] {BuildTextButton(label, ("Question", answer.Question))};
+                });
             var keyboard = new MessageKeyboard
             {
                 Buttons = buttons,
@@ -75,12 +107,14 @@ namespace VkBot.Services
             SendMessage(peerId, messageText, keyboard);
         }
         
-        private MessageKeyboardButton BuildTextButton(string label)
+        private MessageKeyboardButton BuildTextButton(string label, (string, string) actionValue = default)
         {
+            var payload = $"{{\"{actionValue.Item1}\":\"{actionValue.Item2}\"}}";
             var action = new MessageKeyboardButtonAction
             {
                 Label = label,
                 Type = KeyboardButtonActionType.Text,
+                Payload = actionValue == default ? null : payload
             };
             var button = new MessageKeyboardButton
             {
