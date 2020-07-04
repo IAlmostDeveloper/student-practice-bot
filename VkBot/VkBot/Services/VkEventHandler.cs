@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using DataBaseAccess.Data;
+using DataBaseAccess.Data.Repositories;
 using VkBot.Data;
 using VkNet.Abstractions;
 using VkNet.Model;
